@@ -1,7 +1,6 @@
 import { cond, equals, T } from 'ramda';
 
 export const typeMatch = type => (state, action) => equals(action.type, type);
-const stateReturn = initialState => (state = initialState) => state;
 
 export const listLookUpMatcher = (listLookUp, initialState) =>
     cond(
@@ -9,6 +8,9 @@ export const listLookUpMatcher = (listLookUp, initialState) =>
             listLookUp.map(([type, fn]) => [
                 typeMatch(type), fn
             ]),
-            [T, stateReturn(initialState)]
+            [
+                T,
+                (state = initialState) => state
+            ]
         ]
     );
